@@ -97,6 +97,22 @@ app.get('/api/db-test', async (req, res) => {
   }
 });
 
+// Environment variables test
+app.get('/api/env-test', (req, res) => {
+  res.json({
+    status: 'environment_check',
+    timestamp: new Date().toISOString(),
+    environment: {
+      node_env: process.env.NODE_ENV,
+      database_url_set: !!process.env.DATABASE_URL,
+      google_client_id_set: !!process.env.GOOGLE_CLIENT_ID,
+      google_client_secret_set: !!process.env.GOOGLE_CLIENT_SECRET,
+      nextauth_secret_set: !!process.env.NEXTAUTH_SECRET,
+      port: process.env.PORT || 5000
+    }
+  });
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
