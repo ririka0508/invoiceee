@@ -55,3 +55,6 @@ public/
 react-ui/
 download-log.json
 config.example.js
+
+# Client (deployed separately on Vercel)
+client/

@@ -2,7 +2,7 @@
 nodejs = "18"
 
 [build]
-cmds = ["npm install", "cd client && npm install", "cd client && npm run build"]
+cmds = ["npm install"]
 
 [start]
 cmd = "npm start"

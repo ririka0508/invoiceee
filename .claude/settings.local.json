@@ -19,7 +19,15 @@
       "Bash(touch:*)",
       "Bash(railway login:*)",
       "Bash(railway whoami:*)",
-      "Bash(railway:*)"
+      "Bash(railway:*)",
+      "Bash(git add:*)",
+      "Bash(git init:*)",
+      "Bash(git reset:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git remote set-url:*)",
+      "Bash(git push:*)",
+      "Bash(git rm:*)"
     ],
     "deny": []
   }
