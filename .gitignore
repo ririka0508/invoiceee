@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 client/node_modules/
+!client/package-lock.json
 
 # Production builds
 client/.next/

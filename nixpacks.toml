@@ -1,0 +1,11 @@
+[providers]
+nodejs = "18"
+
+[build]
+cmds = ["npm install", "cd client && npm install", "cd client && npm run build"]
+
+[start]
+cmd = "npm start"
+
+[variables]
+NODE_ENV = "production"
