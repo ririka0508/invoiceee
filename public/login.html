@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン - invoiceee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full space-y-8 p-8">
+        <!-- ロゴとタイトル -->
+        <div class="text-center">
+            <img src="/logo.png" alt="invoiceee" class="mx-auto h-20 w-auto mb-4">
+            <h2 class="text-3xl font-bold text-gray-900">ログイン</h2>
+            <p class="mt-2 text-sm text-gray-600">
+                アカウントにサインインしてください
+            </p>
+        </div>
+
+        <!-- Google認証ボタン -->
+        <div class="mt-8 space-y-6">
+            <!-- エラーメッセージ -->
+            <div id="errorMessage" class="hidden text-red-600 text-sm text-center bg-red-50 border border-red-200 rounded-md p-3">
+            </div>
+
+            <!-- Google Sign-In ボタン -->
+            <div class="flex justify-center">
+                <div id="g_id_onload"
+                     data-client_id="747110997189-qrhfr0qucb4bbfecgchtjf5eu9ahmsov.apps.googleusercontent.com"
+                     data-context="signin"
+                     data-ux_mode="popup"
+                     data-callback="handleCredentialResponse"
+                     data-auto_prompt="false"
+                     data-allowed_parent_origin="http://localhost:3000">
+                </div>
+                
+                <div class="g_id_signin"
+                     data-type="standard"
+                     data-shape="rectangular"
+                     data-theme="outline"
+                     data-text="signin_with"
+                     data-size="large"
+                     data-logo_alignment="left">
+                </div>
+            </div>
+
+            <!-- または区切り線 -->
+            <div class="relative">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-300"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-gray-50 text-gray-500">または</span>
+                </div>
+            </div>
+
+            <!-- 従来のログインフォーム -->
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="username" class="block text-sm font-medium text-gray-700">
+                        ユーザー名
+                    </label>
+                    <input 
+                        id="username" 
+                        name="username" 
+                        type="text" 
+                        required 
+                        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="ユーザー名を入力"
+                    >
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">
+                        パスワード
+                    </label>
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        required 
+                        class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                        placeholder="パスワードを入力"
+                    >
+                </div>
+
+                <!-- ログインボタン -->
+                <div>
+                    <button 
+                        type="submit" 
+                        id="loginButton"
+                        class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <span id="loginButtonText">デモアカウントでログイン</span>
+                        <div id="loginSpinner" class="hidden ml-2">
+                            <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </form>
+
+            <!-- デモアカウント情報 -->
+            <div class="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-md">
+                <h3 class="text-sm font-medium text-gray-800 mb-2">デモアカウント</h3>
+                <div class="text-xs text-gray-600 space-y-1">
+                    <div><strong>管理者:</strong> admin / admin123</div>
+                    <div><strong>ユーザー:</strong> user / user123</div>
+                </div>
+            </div>
+
+            <!-- Google認証の説明 -->
+            <div class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
+                <h3 class="text-sm font-medium text-blue-800 mb-2">推奨: Googleアカウントでログイン</h3>
+                <p class="text-xs text-blue-700">
+                    Googleアカウントを使用することで、よりセキュアで簡単にログインできます。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const loginButton = document.getElementById('loginButton');
+        const loginButtonText = document.getElementById('loginButtonText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const errorMessage = document.getElementById('errorMessage');
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMessage.classList.add('hidden');
+        }
+
+        function setLoading(loading) {
+            loginButton.disabled = loading;
+            if (loading) {
+                loginButtonText.textContent = 'ログイン中...';
+                loginSpinner.classList.remove('hidden');
+            } else {
+                loginButtonText.textContent = 'デモアカウントでログイン';
+                loginSpinner.classList.add('hidden');
+            }
+        }
+
+        // Google認証のコールバック関数
+        async function handleCredentialResponse(response) {
+            try {
+                hideError();
+                console.log('Google credential received:', response);
+                
+                if (!response.credential) {
+                    showError('Google認証トークンが取得できませんでした');
+                    return;
+                }
+                
+                const result = await fetch('/api/google-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ idToken: response.credential }),
+                });
+
+                console.log('Server response status:', result.status);
+                const data = await result.json();
+                console.log('Server response data:', data);
+
+                if (result.ok) {
+                    // Google認証成功 - ダッシュボードにリダイレクト
+                    window.location.href = '/freee-ui.html';
+                } else {
+                    showError(`認証エラー: ${data.error || 'Google認証に失敗しました'}`);
+                }
+            } catch (error) {
+                console.error('Google login error:', error);
+                showError(`Google認証エラー: ${error.message}`);
+            }
+        }
+
+        // Google認証の初期化エラーハンドリング
+        window.addEventListener('load', function() {
+            // Google Sign-In ライブラリが読み込まれているかチェック
+            if (typeof google === 'undefined') {
+                console.error('Google Sign-In library not loaded');
+                showError('Google認証ライブラリの読み込みに失敗しました');
+            }
+        });
+
+        // 従来のフォーム認証（デモアカウント用）
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError();
+            setLoading(true);
+
+            const formData = new FormData(loginForm);
+            const username = formData.get('username');
+            const password = formData.get('password');
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // ログイン成功 - ダッシュボードまたはメインページにリダイレクト
+                    window.location.href = '/freee-ui.html';
+                } else {
+                    showError(data.error || 'ログインに失敗しました');
+                }
+            } catch (error) {
+                showError('サーバーエラーが発生しました');
+                console.error('Login error:', error);
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        // Enterキーでログイン
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !loginButton.disabled) {
+                loginForm.dispatchEvent(new Event('submit'));
+            }
+        });
+
+        // Google認証を window に公開
+        window.handleCredentialResponse = handleCredentialResponse;
+    </script>
+</body>
+</html>

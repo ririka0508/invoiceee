@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>invoiceee - PDF自動ダウンロードツール</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+                    <img src="/logo.png" alt="invoiceee" style="width: 320px; height: 320px; object-fit: contain;">
+                </div>
+                <p>PDF自動ダウンロードツール</p>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="card">
+                <h2>設定</h2>
+                <form id="configForm" class="form">
+                    <div class="form-group">
+                        <label for="loginUrl">ログインURL</label>
+                        <input type="url" id="loginUrl" name="loginUrl" placeholder="https://example.com/login" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username">ユーザー名</label>
+                        <input type="text" id="username" name="username" placeholder="your-email@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">パスワード</label>
+                        <input type="password" id="password" name="password" placeholder="パスワードを入力">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="securityCode">セキュリティコード</label>
+                        <input type="text" id="securityCode" name="securityCode" placeholder="セキュリティコードを入力" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="billingPath">請求ページパス</label>
+                        <input type="text" id="billingPath" name="billingPath" placeholder="/billing/in" value="/billing/in">
+                    </div>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>ダウンロード</h2>
+                <div class="download-section">
+                    <button id="downloadBtn" class="btn btn-primary" disabled>
+                        <span id="downloadBtnText">PDFをダウンロード</span>
+                        <div id="downloadSpinner" class="spinner hidden"></div>
+                    </button>
+                    <p class="help-text">上記の設定を入力してからダウンロードボタンを押してください</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>ダウンロード履歴</h2>
+                <div id="downloadHistory" class="history">
+                    <p class="no-data">ダウンロード履歴がありません</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>ログ</h2>
+                <div id="logOutput" class="log-output">
+                    <p class="no-data">ログはここに表示されます</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Built with Playwright & Node.js</p>
+        </footer>
+    </div>
+
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">通知</h3>
+            <p id="modalMessage"></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

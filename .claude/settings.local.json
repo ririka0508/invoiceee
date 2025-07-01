@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)",
+      "Bash(sudo chown:*)",
+      "Bash(npm cache clean:*)",
+      "Bash(curl:*)",
+      "Bash(pkill:*)",
+      "Bash(npx create-react-app:*)",
+      "Bash(lsof:*)",
+      "Bash(kill:*)",
+      "Bash(yarn install)",
+      "Bash(rm:*)",
+      "Bash(PORT=3001 node server.js)",
+      "Bash(mkdir:*)",
+      "Bash(npx create-next-app:*)",
+      "Bash(touch:*)",
+      "Bash(railway login:*)",
+      "Bash(railway whoami:*)",
+      "Bash(railway:*)"
+    ],
+    "deny": []
+  }
+}
