@@ -8,6 +8,11 @@ const pool = new Pool({
 
 // データベース接続テスト
 async function connectDB() {
+  if (!process.env.DATABASE_URL) {
+    console.log('⚠️  DATABASE_URL not set, skipping database connection');
+    return;
+  }
+
   try {
     const client = await pool.connect();
     console.log('PostgreSQL connected successfully');
@@ -18,7 +23,8 @@ async function connectDB() {
     client.release();
   } catch (error) {
     console.error('Database connection error:', error);
-    throw error;
+    console.log('⚠️  Server will continue without database connection');
+    // Don't throw error to allow server to start
   }
 }
 

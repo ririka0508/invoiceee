@@ -4,7 +4,7 @@ providers = ["node"]
 nixPkgs = ["nodejs_18"]
 
 [phases.build]
-cmds = ["npm install"]
+cmds = ["npm install", "npm run build"]
 
 [phases.start]
 cmd = "npm start"
