@@ -1,5 +1,5 @@
 [providers]
-nodejs = "18"
+node = "18"
 
 [build]
 cmds = ["npm install"]
