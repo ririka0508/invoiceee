@@ -47,6 +47,23 @@ app.use('/api/auth', authRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/download', downloadRoutes);
 
+// Serve static files from Next.js build
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/.next/static')));
+  app.use(express.static(path.join(__dirname, '../client/out')));
+  
+  // Handle Next.js routes
+  app.get('*', (req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return next();
+    }
+    
+    // Serve Next.js app
+    res.sendFile(path.join(__dirname, '../client/out/index.html'));
+  });
+}
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ 
