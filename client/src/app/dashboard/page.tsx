@@ -30,7 +30,7 @@ export default function Dashboard() {
   const [portals, setPortals] = useState<Portal[]>([]);
   const [history, setHistory] = useState<DownloadHistory[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [, setShowAddModal] = useState(false);
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -40,7 +40,7 @@ export default function Dashboard() {
     }
 
     fetchData();
-  }, [session, status, router]);
+  }, [session, status, router, fetchData]);
 
   const fetchData = async () => {
     try {
