@@ -47,20 +47,54 @@ app.use('/api/auth', authRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/download', downloadRoutes);
 
-// Root endpoint for API-only deployment
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'invoiceee API Server',
-    version: '2.0.0',
-    status: 'running',
-    endpoints: {
-      health: '/api/health',
-      auth: '/api/auth',
-      invoices: '/api/invoices',
-      download: '/api/download'
+// Serve static files from Next.js build
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/.next/static')));
+  app.use(express.static(path.join(__dirname, '../client/.next')));
+  
+  // Handle Next.js app routing
+  app.get('*', (req, res, next) => {
+    // Skip API routes
+    if (req.path.startsWith('/api/')) {
+      return next();
     }
+    
+    // Serve Next.js app for frontend routes
+    res.sendFile(path.join(__dirname, '../client/.next/static/index.html'), (err) => {
+      if (err) {
+        // Fallback to API info if frontend not available
+        res.json({ 
+          message: 'invoiceee Full-Stack App',
+          version: '2.0.0',
+          status: 'running',
+          frontend: 'building...',
+          endpoints: {
+            health: '/api/health',
+            auth: '/api/auth',
+            invoices: '/api/invoices',
+            download: '/api/download'
+          }
+        });
+      }
+    });
   });
-});
+} else {
+  // Development mode - API info only
+  app.get('/', (req, res) => {
+    res.json({ 
+      message: 'invoiceee API Server (Development)',
+      version: '2.0.0',
+      status: 'running',
+      mode: 'development',
+      endpoints: {
+        health: '/api/health',
+        auth: '/api/auth',
+        invoices: '/api/invoices',
+        download: '/api/download'
+      }
+    });
+  });
+}
 
 // Health check
 app.get('/api/health', (req, res) => {
