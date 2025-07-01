@@ -10,14 +10,7 @@ const nextConfig = {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     API_URL: process.env.API_URL || 'http://localhost:5000',
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/server/:path*',
-        destination: `${process.env.API_URL || 'http://localhost:5000'}/api/:path*`,
-      },
-    ];
-  },
+  // Remove rewrites for static export
 }
 
 module.exports = nextConfig;
