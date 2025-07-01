@@ -56,5 +56,5 @@ react-ui/
 download-log.json
 config.example.js
 
-# Client included in Railway deployment
-# client/
+# Client deployed separately
+client/

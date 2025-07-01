@@ -32,16 +32,6 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [, setShowAddModal] = useState(false);
 
-  useEffect(() => {
-    if (status === 'loading') return;
-    if (!session) {
-      router.push('/auth/signin');
-      return;
-    }
-
-    fetchData();
-  }, [session, status, router, fetchData]);
-
   const fetchData = async () => {
     try {
       const [portalsRes, historyRes] = await Promise.all([
@@ -61,6 +51,16 @@ export default function Dashboard() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (status === 'loading') return;
+    if (!session) {
+      router.push('/auth/signin');
+      return;
+    }
+
+    fetchData();
+  }, [session, status, router]);
 
   const handleSignOut = async () => {
     await signOut({ callbackUrl: '/auth/signin' });
