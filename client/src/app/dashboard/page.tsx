@@ -32,32 +32,32 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [, setShowAddModal] = useState(false);
 
-  const fetchData = async () => {
-    try {
-      const [portalsRes, historyRes] = await Promise.all([
-        axios.get('/api/server/invoices/portals', {
-          headers: { Authorization: `Bearer ${session?.apiToken}` },
-        }),
-        axios.get('/api/server/download/history', {
-          headers: { Authorization: `Bearer ${session?.apiToken}` },
-        }),
-      ]);
-
-      setPortals(portalsRes.data.portals || []);
-      setHistory(historyRes.data.downloads || []);
-    } catch (error) {
-      console.error('Failed to fetch data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (status === 'loading') return;
-    if (!session) {
-      router.push('/auth/signin');
-      return;
-    }
+    const fetchData = async () => {
+      if (status === 'loading') return;
+      if (!session) {
+        router.push('/auth/signin');
+        return;
+      }
+
+      try {
+        const [portalsRes, historyRes] = await Promise.all([
+          axios.get('/api/server/invoices/portals', {
+            headers: { Authorization: `Bearer ${session?.apiToken}` },
+          }),
+          axios.get('/api/server/download/history', {
+            headers: { Authorization: `Bearer ${session?.apiToken}` },
+          }),
+        ]);
+
+        setPortals(portalsRes.data.portals || []);
+        setHistory(historyRes.data.downloads || []);
+      } catch (error) {
+        console.error('Failed to fetch data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     fetchData();
   }, [session, status, router]);
