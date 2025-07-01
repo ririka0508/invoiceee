@@ -71,6 +71,32 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Database connection test
+app.get('/api/db-test', async (req, res) => {
+  try {
+    const { pool } = require('./models/database');
+    const client = await pool.connect();
+    const result = await client.query('SELECT NOW() as current_time, version() as pg_version');
+    client.release();
+    
+    res.json({
+      status: 'database_connected',
+      timestamp: new Date().toISOString(),
+      database: {
+        current_time: result.rows[0].current_time,
+        postgres_version: result.rows[0].pg_version,
+        database_url_set: !!process.env.DATABASE_URL
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 'database_error',
+      error: error.message,
+      database_url_set: !!process.env.DATABASE_URL
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
